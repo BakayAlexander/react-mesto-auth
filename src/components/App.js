@@ -10,6 +10,7 @@ import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import DeleteCardPopup from './DeleteCardPopup';
 import BouncingLoader from '../utils/BouncingLoader';
+import { Switch, Route } from 'react-router-dom';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -161,19 +162,23 @@ function App() {
       {/* Подписываем компоненты на контекст текущего пользователя */}
       <CurrentUserContext.Provider value={currentUser}>
         <Header />
-        {isRendering ? (
-          <BouncingLoader />
-        ) : (
-          <Main
-            onEditProfile={handleEditProfileClick}
-            onEditAvatar={handleEditAvatarClick}
-            onAddPlace={handleAddPlaceClick}
-            onCardClick={handleCardClick}
-            cards={cards}
-            onCardLike={handleCardLike}
-            onCardDelete={handleDeleteCardClick}
-          />
-        )}
+        <Switch>
+          {isRendering ? (
+            <BouncingLoader />
+          ) : (
+            <Main
+              onEditProfile={handleEditProfileClick}
+              onEditAvatar={handleEditAvatarClick}
+              onAddPlace={handleAddPlaceClick}
+              onCardClick={handleCardClick}
+              cards={cards}
+              onCardLike={handleCardLike}
+              onCardDelete={handleDeleteCardClick}
+            />
+          )}
+          <Route path="/sign-up" component={''} />
+          <Route path="/sign-in" component={''} />
+        </Switch>
         <Footer />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
