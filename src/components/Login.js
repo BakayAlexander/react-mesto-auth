@@ -1,10 +1,65 @@
 import React from 'react';
-import AuthForm from './AuthForm';
+import * as auth from '../utils/auth';
+import { useHistory } from 'react-router-dom';
 
-function Login() {
+function Login(props) {
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const history = useHistory();
+
+  function handleChangeEmail(e) {
+    setEmail(e.target.value);
+  }
+
+  function handleChangePassword(e) {
+    setPassword(e.target.value);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    auth.authorize(email, password).then((res) => {
+      console.log(res);
+      if (res.token) {
+        setEmail('');
+        setPassword('');
+        //Меняем стейт логина, чтобы нас не выкинуло обратно на страницу входа
+        props.onLogin();
+        history.push('/');
+      }
+    });
+  }
+
   return (
     <section className="login">
-      <AuthForm title="Вход" button="Войти" />
+      <h2 className="auth__title">Вход</h2>
+      <form className="auth__form" onSubmit={handleSubmit}>
+        <fieldset className="auth__inputs">
+          <input
+            className="auth__input"
+            // id=""
+            // name="link"
+            type="email"
+            placeholder="Email"
+            required
+            value={email ?? ''}
+            onChange={handleChangeEmail}
+          />
+          <input
+            className="auth__input"
+            // id=""
+            // name="link"
+            type="password"
+            placeholder="Пароль"
+            required
+            value={password ?? ''}
+            onChange={handleChangePassword}
+          />
+        </fieldset>
+        <button className="auth__button" type="submit">
+          {/* {!isSubmitting ? 'Зарегистрироваться' : <BouncingLoader />} */}
+          Войти
+        </button>
+      </form>
     </section>
   );
 }

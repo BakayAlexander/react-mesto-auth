@@ -13,8 +13,11 @@ import BouncingLoader from '../utils/BouncingLoader';
 import { Switch, Route } from 'react-router-dom';
 import Register from './Register';
 import Login from './Login';
+import ProtectedRoute from './ProtectedRoute';
+import InfoTooltip from './InfoTooltip';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = React.useState(true);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
@@ -159,13 +162,18 @@ function App() {
     setDeleteCardId(cardId);
   }
 
+  //Работает с аутентификацией
+  function handleLogin() {
+    setIsLoggedIn(true);
+  }
+
   return (
     <div className="page__container-global">
       {/* Подписываем компоненты на контекст текущего пользователя */}
       <CurrentUserContext.Provider value={currentUser}>
         <Header />
         <Switch>
-          <Route exact path="/">
+          {/* <ProtectedRoute exact path="/" isLoggedIn={isLoggedIn}>
             {isRendering ? (
               <BouncingLoader />
             ) : (
@@ -179,10 +187,27 @@ function App() {
                 onCardDelete={handleDeleteCardClick}
               />
             )}
-          </Route>
+          </ProtectedRoute> */}
+
+          <ProtectedRoute
+            exact
+            path="/"
+            component={Main}
+            isLoggedIn={isLoggedIn}
+            isRendering={isRendering}
+            onEditProfile={handleEditProfileClick}
+            onEditAvatar={handleEditAvatarClick}
+            onAddPlace={handleAddPlaceClick}
+            onCardClick={handleCardClick}
+            cards={cards}
+            onCardLike={handleCardLike}
+            onCardDelete={handleDeleteCardClick}
+          />
           <Route path="/sign-up" component={Register} />
-          <Route path="/sign-in" component={Login} />
-          {/* <Register /> */}
+          {/* <Route path="/sign-in" component={Login} props={handleLogin} /> */}
+          <Route path="/sign-in">
+            <Login onLogin={handleLogin} />
+          </Route>
         </Switch>
 
         <Footer />
@@ -213,6 +238,7 @@ function App() {
           isSubmitting={isSubmitting}
         />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={isImagePopupOpen} />
+        <InfoTooltip isOpen={false} onClose={closeAllPopups} title="Вы успешно зарегистрировались" />
       </CurrentUserContext.Provider>
     </div>
   );

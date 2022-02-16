@@ -55,10 +55,14 @@
 @import url('../src/blocks/popup/_type/_edit/popup_type_edit.css');
 @import url('../src/blocks/popup/_type/_card/popup_type_card.css');
 @import url('../src/blocks/popup/_type/_pic/popup_type_pic.css');
+@import url('../src/blocks/popup/_type/_info-tooltip/popup_type_info-tooltip.css');
 @import url('../src/blocks/popup/_is-opened/popup_is-opened.css');
 @import url('../src/blocks/popup/__container/popup__container.css');
+@import url('../src/blocks/popup/__container/_info-tooltip/popup__container_info-tooltip.css');
+@import url('../src/blocks/popup/__info-tooltip-image/popup__info-tooltip-image.css');
 @import url('../src/blocks/popup/__form/popup__form.css');
 @import url('../src/blocks/popup/__title/popup__title.css');
+@import url('../src/blocks/popup/__title/_info-tooltip/popup__title_info-tooltip.css');
 @import url('../src/blocks/popup/__inputs/popup__inputs.css');
 @import url('../src/blocks/popup/__input/popup__input.css');
 @import url('../src/blocks/popup/__button-save/popup__button-save.css');
