@@ -205,7 +205,7 @@ function App() {
     <div className="page__container-global">
       {/* Подписываем компоненты на контекст текущего пользователя */}
       <CurrentUserContext.Provider value={currentUser}>
-        <Header email={email} />
+        {/* <Header email={email} /> */}
         <Switch>
           <ProtectedRoute
             exact
@@ -220,6 +220,7 @@ function App() {
             cards={cards}
             onCardLike={handleCardLike}
             onCardDelete={handleDeleteCardClick}
+            email={email}
           />
           <Route path="/sign-up">
             <Register onFalse={handleOpenFalsePopup} onDone={handleOpenDonePopup} />

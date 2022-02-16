@@ -19,6 +19,7 @@ function ProtectedRoute({ component: Component, ...props }) {
               cards={props.cards}
               onCardLike={props.onCardLike}
               onCardDelete={props.onCardDelete}
+              email={props.email}
             />
           )
         ) : (
