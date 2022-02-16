@@ -2,13 +2,9 @@ import React from 'react';
 import PopupWithForm from './PopupWithForm';
 
 function EditAvatarPopup(props) {
-  const [avatar, setAvatar] = React.useState('');
   //Для получения доступа к input используем хук и получаем ref
   const inputRef = React.useRef({});
 
-  function handleChangeAvatar(e) {
-    setAvatar(e.target.value);
-  }
   // Передаем функцию onUpdateAvatar которая пошлет запрос к api с текущим состояниям ref, т.е. возьмет значение из input и пробросит в App.js, где находится обращение к api
   function handleSubmit(e) {
     e.preventDefault();
@@ -19,7 +15,7 @@ function EditAvatarPopup(props) {
 
   //Очищаем значени input в зависимости от открытия popup
   React.useEffect(() => {
-    setAvatar('');
+    inputRef.current.value = '';
   }, [props.isOpen]);
 
   return (
@@ -45,9 +41,6 @@ function EditAvatarPopup(props) {
           autoComplete="off"
           //Подписываем ref и получаем прямой доступ к этому элементу, чтобы вытащить значение
           ref={inputRef}
-          onChange={handleChangeAvatar}
-          //Прописываем выбор, чтобы в консоль не падало предупреждение о ошибке
-          value={avatar ?? ''}
         />
         <span className="popup__input-error popup__input-error_type_avatar"></span>
       </fieldset>
