@@ -19,19 +19,19 @@ function Register(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    auth
-      .register(email, password)
-      .then((res) => {
-        //400 это код ошибки, если его нет, то переходим на страницу авторизации и меняем стейт для открытия попапа
-        if (res.statusCode !== 400) {
-          props.onDone();
-          history.push('/sign-in');
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        props.onFalse();
-      });
+    props.onSubmit(email, password);
+    // auth
+    //   .register(email, password)
+    //   .then((res) => {
+    //     //400 это код ошибки, если его нет, то переходим на страницу авторизации и меняем стейт для открытия попапа
+    //     if (res.statusCode !== 400) {
+    //       history.push('/sign-in');
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     props.onFalse();
+    //   });
   }
 
   function handleGoToSignIn() {

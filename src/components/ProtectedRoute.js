@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import BouncingLoader from '../utils/BouncingLoader';
-import Main from './Main';
 
 function ProtectedRoute({ component: Component, ...props }) {
   return (
@@ -11,15 +10,9 @@ function ProtectedRoute({ component: Component, ...props }) {
           props.isRendering ? (
             <BouncingLoader />
           ) : (
-            <Main
-              onEditProfile={props.onEditProfile}
-              onEditAvatar={props.onEditAvatar}
-              onAddPlace={props.onAddPlace}
-              onCardClick={props.onCardClick}
-              cards={props.cards}
-              onCardLike={props.onCardLike}
-              onCardDelete={props.onCardDelete}
-              email={props.email}
+            <Component
+              //Прокидываем все пропсы в нашем случае это только пропсы Main, но компонент должен быть универсален, потому такая запись
+              {...props}
             />
           )
         ) : (
