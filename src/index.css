@@ -37,6 +37,17 @@
 @import url('../src/blocks/element/__delete-button/element__delete-button.css');
 @import url('../src/blocks/element/__delete-button/_hidden/element__delete-button_hidden.css');
 
+@import url('../src/blocks/register/register.css');
+@import url('../src/blocks/register/__link/register__link.css');
+
+@import url('../src/blocks/login/login.css');
+
+@import url('../src/blocks/auth/__title/auth__title.css');
+@import url('../src/blocks/auth/__form/auth__form.css');
+@import url('../src/blocks/auth/__inputs/auth__inputs.css');
+@import url('../src/blocks/auth/__input/auth__input.css');
+@import url('../src/blocks/auth/__button/auth__button.css');
+
 @import url('../src/blocks/footer/footer.css');
 @import url('../src/blocks/footer/__content/footer__content.css');
 
