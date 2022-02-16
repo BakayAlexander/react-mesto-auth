@@ -9,15 +9,19 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import DeleteCardPopup from './DeleteCardPopup';
-import BouncingLoader from '../utils/BouncingLoader';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
 import Register from './Register';
 import Login from './Login';
 import ProtectedRoute from './ProtectedRoute';
 import InfoTooltip from './InfoTooltip';
+import doneImage from '../images/done.svg';
+import falseImage from '../images/false.svg';
+import * as auth from '../utils/auth';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(true);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [email, setEmail] = React.useState('');
+  const history = useHistory();
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
@@ -26,9 +30,24 @@ function App() {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({});
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
+  const [isFalsePopupOpen, setIsFalsePopupOpen] = React.useState(false);
+  const [isDonePopupOpen, setIsDonePopupOpen] = React.useState(false);
   const [deleteCardId, setDeleteCardId] = React.useState();
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
+
+  React.useEffect(() => {
+    if (localStorage.getItem('jwt')) {
+      const token = localStorage.getItem('jwt');
+      auth.checkToken(token).then((res) => {
+        if (res) {
+          setEmail(res.data.email);
+          setIsLoggedIn(true);
+          history.push('/');
+        }
+      });
+    }
+  }, []);
 
   React.useEffect(() => {
     api
@@ -58,6 +77,14 @@ function App() {
     setIsImagePopupOpen(true);
   }
 
+  function handleOpenFalsePopup() {
+    setIsFalsePopupOpen(true);
+  }
+
+  function handleOpenDonePopup() {
+    setIsDonePopupOpen(true);
+  }
+
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
@@ -65,6 +92,8 @@ function App() {
     setSelectedCard({});
     setIsImagePopupOpen(false);
     setIsDeleteCardPopupOpen(false);
+    setIsFalsePopupOpen(false);
+    setIsDonePopupOpen(false);
   }
 
   //Ф-я принимает на вход объект с данными и на основе них отправляет PATCH запрос к api. Объявляем ее тут, а потом передаем в EditProfilePopup прокидывая через пропс. Затем из EditProfilePopup прокидываем ее в PopupWithForm, чтобы все запускалось при сабмите формы.
@@ -167,28 +196,17 @@ function App() {
     setIsLoggedIn(true);
   }
 
+  //Хендлер для задания стейта email пользователя при авторизации(чтобы email сразу попадал в блок Header)
+  function handleUpdateUserEmail(mail) {
+    setEmail(mail);
+  }
+
   return (
     <div className="page__container-global">
       {/* Подписываем компоненты на контекст текущего пользователя */}
       <CurrentUserContext.Provider value={currentUser}>
-        <Header />
+        <Header email={email} />
         <Switch>
-          {/* <ProtectedRoute exact path="/" isLoggedIn={isLoggedIn}>
-            {isRendering ? (
-              <BouncingLoader />
-            ) : (
-              <Main
-                onEditProfile={handleEditProfileClick}
-                onEditAvatar={handleEditAvatarClick}
-                onAddPlace={handleAddPlaceClick}
-                onCardClick={handleCardClick}
-                cards={cards}
-                onCardLike={handleCardLike}
-                onCardDelete={handleDeleteCardClick}
-              />
-            )}
-          </ProtectedRoute> */}
-
           <ProtectedRoute
             exact
             path="/"
@@ -203,10 +221,16 @@ function App() {
             onCardLike={handleCardLike}
             onCardDelete={handleDeleteCardClick}
           />
-          <Route path="/sign-up" component={Register} />
-          {/* <Route path="/sign-in" component={Login} props={handleLogin} /> */}
+          <Route path="/sign-up">
+            <Register onFalse={handleOpenFalsePopup} onDone={handleOpenDonePopup} />
+          </Route>
           <Route path="/sign-in">
-            <Login onLogin={handleLogin} />
+            <Login
+              onLogin={handleLogin}
+              onFalse={handleOpenFalsePopup}
+              onDone={handleOpenDonePopup}
+              updateUserEmail={handleUpdateUserEmail}
+            />
           </Route>
         </Switch>
 
@@ -238,7 +262,20 @@ function App() {
           isSubmitting={isSubmitting}
         />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={isImagePopupOpen} />
-        <InfoTooltip isOpen={false} onClose={closeAllPopups} title="Вы успешно зарегистрировались" />
+        <InfoTooltip
+          isOpen={isFalsePopupOpen}
+          onClose={closeAllPopups}
+          image={falseImage}
+          title="Что-то пошло не так! Попробуйте еще раз."
+          alt="Что-то пошло не так. Попробуйте еще раз."
+        />
+        <InfoTooltip
+          isOpen={isDonePopupOpen}
+          onClose={closeAllPopups}
+          image={doneImage}
+          title="Вы успешно зарегистрировались!"
+          alt="Вы успешно зарегистрировались."
+        />
       </CurrentUserContext.Provider>
     </div>
   );

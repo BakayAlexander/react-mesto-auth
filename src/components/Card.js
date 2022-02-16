@@ -23,8 +23,6 @@ function Card({ id, name, link, likes, owner, onCardClick, onCardLike, onCardDel
   }
 
   function handleDeleteCard() {
-    // onCardDelete(isOwn, id);
-    // onCardDelete(id);
     onCardDelete(id);
   }
 

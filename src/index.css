@@ -10,6 +10,9 @@
 
 @import url('../src/blocks/header/header.css');
 @import url('../src/blocks/header/__logo/header__logo.css');
+@import url('../src/blocks/header/__button/header__button.css');
+@import url('../src/blocks/header/__user-email/header__user-email.css');
+@import url('../src/blocks/header/__user-container/header__user-container.css');
 
 @import url('../src/blocks/profile/profile.css');
 @import url('../src/blocks/profile/__container/profile__container.css');

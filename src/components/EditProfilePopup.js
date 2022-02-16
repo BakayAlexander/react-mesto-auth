@@ -30,7 +30,6 @@ function EditProfilePopup(props) {
   }, [currentUser, props.isOpen]);
 
   return (
-    // <Popup isOpen={props.isOpen} onClose={props.onClose} name="edit">
     <PopupWithForm
       name="edit"
       title="Редактировать профиль"
@@ -71,7 +70,6 @@ function EditProfilePopup(props) {
         <span className="popup__input-error popup__input-error_type_description"></span>
       </fieldset>
     </PopupWithForm>
-    // </Popup>
   );
 }
 

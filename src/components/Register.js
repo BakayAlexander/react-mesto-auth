@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import * as auth from '../utils/auth';
 
-function Register() {
+function Register(props) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   // Используем useHistory для перехода после регистрации
@@ -18,12 +18,19 @@ function Register() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    auth.register(email, password).then((res) => {
-      //400 это код ошибки, если его нет, то переходим на страницу авторизации
-      if (res.statusCode !== 400) {
-        history.push('/sign-in');
-      }
-    });
+    auth
+      .register(email, password)
+      .then((res) => {
+        //400 это код ошибки, если его нет, то переходим на страницу авторизации и меняем стейт для открытия попапа
+        if (res.statusCode !== 400) {
+          props.onDone();
+          history.push('/sign-in');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        props.onFalse();
+      });
   }
 
   return (
@@ -33,19 +40,19 @@ function Register() {
         <fieldset className="auth__inputs">
           <input
             className="auth__input"
-            // id=""
-            // name="link"
             type="email"
             placeholder="Email"
             required
+            minLength="4"
+            maxLength="30"
             value={email ?? ''}
             onChange={handleChangeEmail}
           />
           <input
             className="auth__input"
-            // id=""
-            // name="link"
             type="password"
+            minLength="5"
+            maxLength="20"
             placeholder="Пароль"
             required
             value={password ?? ''}

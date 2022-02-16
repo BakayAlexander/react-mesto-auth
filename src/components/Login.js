@@ -17,16 +17,25 @@ function Login(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    auth.authorize(email, password).then((res) => {
-      console.log(res);
-      if (res.token) {
-        setEmail('');
-        setPassword('');
-        //Меняем стейт логина, чтобы нас не выкинуло обратно на страницу входа
-        props.onLogin();
-        history.push('/');
-      }
-    });
+    auth
+      .authorize(email, password)
+      .then((res) => {
+        if (res.token) {
+          setEmail('');
+          setPassword('');
+          //Меняем стейт email чтобы обновить информацию в Header
+          props.updateUserEmail(email);
+          //Меняем стейт логина, чтобы нас не выкинуло обратно на страницу входа, а так же меняем стейт для открытия попапа успешной авторизации
+          props.onDone();
+          props.onLogin();
+          history.push('/');
+        }
+      })
+
+      .catch((err) => {
+        console.log(err);
+        props.onFalse();
+      });
   }
 
   return (
@@ -36,9 +45,9 @@ function Login(props) {
         <fieldset className="auth__inputs">
           <input
             className="auth__input"
-            // id=""
-            // name="link"
             type="email"
+            minLength="4"
+            maxLength="30"
             placeholder="Email"
             required
             value={email ?? ''}
@@ -46,9 +55,9 @@ function Login(props) {
           />
           <input
             className="auth__input"
-            // id=""
-            // name="link"
             type="password"
+            minLength="5"
+            maxLength="20"
             placeholder="Пароль"
             required
             value={password ?? ''}
@@ -56,7 +65,6 @@ function Login(props) {
           />
         </fieldset>
         <button className="auth__button" type="submit">
-          {/* {!isSubmitting ? 'Зарегистрироваться' : <BouncingLoader />} */}
           Войти
         </button>
       </form>
