@@ -18,25 +18,26 @@ function Login(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    auth
-      .authorize(email, password)
-      .then((res) => {
-        if (res.token) {
-          setEmail('');
-          setPassword('');
-          //Меняем стейт email чтобы обновить информацию в Header
-          props.updateUserEmail(email);
-          //Меняем стейт логина, чтобы нас не выкинуло обратно на страницу входа, а так же меняем стейт для открытия попапа успешной авторизации
-          props.onDone();
-          props.onLogin();
-          history.push('/');
-        }
-      })
+    props.onSubmit(email, password);
 
-      .catch((err) => {
-        console.log(err);
-        props.onFalse();
-      });
+    // auth
+    //   .authorize(email, password)
+    //   .then((res) => {
+    //     if (res.token) {
+    //       setEmail('');
+    //       setPassword('');
+    //       //Меняем стейт логина, чтобы нас не выкинуло обратно на страницу входа, а так же меняем стейт для открытия попапа успешной авторизации
+    //       props.onLogin(); //Меняем стейт email чтобы обновить информацию в Header
+    //       props.updateUserEmail(email);
+
+    //       history.push('/');
+    //     }
+    //   })
+
+    //   .catch((err) => {
+    //     console.log(err);
+    //     props.onFalse();
+    //   });
   }
 
   function handleGoToSignUp() {

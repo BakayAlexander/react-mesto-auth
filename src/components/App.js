@@ -1,6 +1,5 @@
 import React from 'react';
 import Footer from './Footer';
-import Header from './Header';
 import ImagePopup from './ImagePopup';
 import Main from './Main';
 import api from '../utils/api';
@@ -39,13 +38,18 @@ function App() {
   React.useEffect(() => {
     if (localStorage.getItem('jwt')) {
       const token = localStorage.getItem('jwt');
-      auth.checkToken(token).then((res) => {
-        if (res) {
-          setEmail(res.data.email);
-          setIsLoggedIn(true);
-          history.push('/');
-        }
-      });
+      auth
+        .checkToken(token)
+        .then((res) => {
+          if (res) {
+            setEmail(res.data.email);
+            setIsLoggedIn(true);
+            history.push('/');
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }, []);
 
@@ -192,8 +196,38 @@ function App() {
   }
 
   //Работает с аутентификацией
-  function handleLogin() {
+  function handleLogin(email, password) {
     setIsLoggedIn(true);
+
+    auth
+      .authorize(email, password)
+      .then((res) => {
+        if (res.token) {
+          //Меняем стейт email чтобы обновить информацию в Header
+          setEmail(email);
+          history.push('/');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        handleOpenFalsePopup();
+      });
+  }
+
+  function handleRegister(email, password) {
+    auth
+      .register(email, password)
+      .then((res) => {
+        //400 это код ошибки, если его нет, то переходим на страницу авторизации и меняем стейт для открытия попапа
+        if (res.statusCode !== 400) {
+          history.push('/sign-in');
+          handleOpenDonePopup();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        handleOpenFalsePopup();
+      });
   }
 
   //Хендлер для задания стейта email пользователя при авторизации(чтобы email сразу попадал в блок Header)
@@ -205,12 +239,12 @@ function App() {
     <div className="page__container-global">
       {/* Подписываем компоненты на контекст текущего пользователя */}
       <CurrentUserContext.Provider value={currentUser}>
-        {/* <Header email={email} /> */}
         <Switch>
+          {/* В защищенный маршрут складываем компонент Main и все его props */}
           <ProtectedRoute
+            component={Main}
             exact
             path="/"
-            component={Main}
             isLoggedIn={isLoggedIn}
             isRendering={isRendering}
             onEditProfile={handleEditProfileClick}
@@ -223,15 +257,17 @@ function App() {
             email={email}
           />
           <Route path="/sign-up">
-            <Register onFalse={handleOpenFalsePopup} onDone={handleOpenDonePopup} />
+            {/* <Register onFalse={handleOpenFalsePopup} onDone={handleOpenDonePopup} /> */}
+            <Register onSubmit={handleRegister} onDone={handleOpenDonePopup} />
           </Route>
           <Route path="/sign-in">
-            <Login
+            {/* <Login
               onLogin={handleLogin}
               onFalse={handleOpenFalsePopup}
               onDone={handleOpenDonePopup}
               updateUserEmail={handleUpdateUserEmail}
-            />
+            /> */}
+            <Login onSubmit={handleLogin} updateUserEmail={handleUpdateUserEmail} />
           </Route>
         </Switch>
 
