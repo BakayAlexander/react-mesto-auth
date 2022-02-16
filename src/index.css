@@ -10,6 +10,9 @@
 
 @import url('../src/blocks/header/header.css');
 @import url('../src/blocks/header/__logo/header__logo.css');
+@import url('../src/blocks/header/__button/header__button.css');
+@import url('../src/blocks/header/__user-email/header__user-email.css');
+@import url('../src/blocks/header/__user-container/header__user-container.css');
 
 @import url('../src/blocks/profile/profile.css');
 @import url('../src/blocks/profile/__container/profile__container.css');
@@ -37,6 +40,17 @@
 @import url('../src/blocks/element/__delete-button/element__delete-button.css');
 @import url('../src/blocks/element/__delete-button/_hidden/element__delete-button_hidden.css');
 
+@import url('../src/blocks/register/register.css');
+@import url('../src/blocks/register/__link/register__link.css');
+
+@import url('../src/blocks/login/login.css');
+
+@import url('../src/blocks/auth/__title/auth__title.css');
+@import url('../src/blocks/auth/__form/auth__form.css');
+@import url('../src/blocks/auth/__inputs/auth__inputs.css');
+@import url('../src/blocks/auth/__input/auth__input.css');
+@import url('../src/blocks/auth/__button/auth__button.css');
+
 @import url('../src/blocks/footer/footer.css');
 @import url('../src/blocks/footer/__content/footer__content.css');
 
@@ -44,10 +58,14 @@
 @import url('../src/blocks/popup/_type/_edit/popup_type_edit.css');
 @import url('../src/blocks/popup/_type/_card/popup_type_card.css');
 @import url('../src/blocks/popup/_type/_pic/popup_type_pic.css');
+@import url('../src/blocks/popup/_type/_info-tooltip/popup_type_info-tooltip.css');
 @import url('../src/blocks/popup/_is-opened/popup_is-opened.css');
 @import url('../src/blocks/popup/__container/popup__container.css');
+@import url('../src/blocks/popup/__container/_info-tooltip/popup__container_info-tooltip.css');
+@import url('../src/blocks/popup/__info-tooltip-image/popup__info-tooltip-image.css');
 @import url('../src/blocks/popup/__form/popup__form.css');
 @import url('../src/blocks/popup/__title/popup__title.css');
+@import url('../src/blocks/popup/__title/_info-tooltip/popup__title_info-tooltip.css');
 @import url('../src/blocks/popup/__inputs/popup__inputs.css');
 @import url('../src/blocks/popup/__input/popup__input.css');
 @import url('../src/blocks/popup/__button-save/popup__button-save.css');

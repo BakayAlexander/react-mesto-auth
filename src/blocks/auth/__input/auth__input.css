@@ -1,0 +1,17 @@
+.auth__input {
+  background-color: transparent;
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 17px;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid rgb(255, 255, 255);
+  width: 358px;
+  height: 27px;
+  padding-top: 30px;
+}
+
+.auth__input:first-of-type {
+  padding-top: 0;
+}

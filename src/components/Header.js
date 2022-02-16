@@ -1,10 +1,12 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import logoPic from '../images/logo.svg';
 
-function Header() {
+function Header(props) {
   return (
     <header className="header page__container-header">
       <img className="header__logo" src={logoPic} alt="Логотип проекта" />
+      {props.children}
     </header>
   );
 }
