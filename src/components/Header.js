@@ -1,5 +1,4 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import logoPic from '../images/logo.svg';
 
 function Header(props) {

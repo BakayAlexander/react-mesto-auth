@@ -257,16 +257,9 @@ function App() {
             email={email}
           />
           <Route path="/sign-up">
-            {/* <Register onFalse={handleOpenFalsePopup} onDone={handleOpenDonePopup} /> */}
             <Register onSubmit={handleRegister} onDone={handleOpenDonePopup} />
           </Route>
           <Route path="/sign-in">
-            {/* <Login
-              onLogin={handleLogin}
-              onFalse={handleOpenFalsePopup}
-              onDone={handleOpenDonePopup}
-              updateUserEmail={handleUpdateUserEmail}
-            /> */}
             <Login onSubmit={handleLogin} updateUserEmail={handleUpdateUserEmail} />
           </Route>
         </Switch>
